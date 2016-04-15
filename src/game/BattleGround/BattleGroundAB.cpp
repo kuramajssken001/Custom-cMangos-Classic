@@ -114,7 +114,7 @@ void BattleGroundAB::Update(uint32 diff)
                 m_ReputationScoreTics[team] += BG_AB_TickPoints[points];
                 if (m_ReputationScoreTics[team] >= m_ReputationTics)
                 {
-                    (team == TEAM_INDEX_ALLIANCE) ? RewardReputationToTeam(509, 10, ALLIANCE) : RewardReputationToTeam(510, 10, HORDE);
+                    (team == TEAM_INDEX_ALLIANCE) ? RewardReputationToTeam(509, 3, ALLIANCE) : RewardReputationToTeam(510, 3, HORDE);
                     m_ReputationScoreTics[team] -= m_ReputationTics;
                 }
                 if (m_honorScoreTicks[team] >= m_honorTicks)
