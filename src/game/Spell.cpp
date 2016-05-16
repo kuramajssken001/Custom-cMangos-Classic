@@ -2697,11 +2697,34 @@ void Spell::cast(bool skipCheck)
                 AddPrecastSpell(25771);                     // Forbearance
             break;
         }
+        case SPELLFAMILY_MAGE:
+        {
+            //Blizzard Zero should be triggered Arcane Concentration.
+            if (m_spellInfo->SpellIconID == 285)
+            {
+                if (m_caster->GetAura(11213, SpellEffectIndex(0)) && (roll_chance_i(2)))   //Arcane Concentration, rank 1
+                    AddPrecastSpell(12536);
+
+                if (m_caster->GetAura(12574, SpellEffectIndex(0)) && (roll_chance_i(4)))   //Arcane Concentration, rank 2
+                    AddPrecastSpell(12536);
+
+                if (m_caster->GetAura(12575, SpellEffectIndex(0)) && (roll_chance_i(6)))   //Arcane Concentration, rank 3
+                    AddPrecastSpell(12536);
+
+                if (m_caster->GetAura(12576, SpellEffectIndex(0)) && (roll_chance_i(8)))   //Arcane Concentration, rank 4
+                    AddPrecastSpell(12536);
+
+                if (m_caster->GetAura(12577, SpellEffectIndex(0)) && (roll_chance_i(10)))  //Arcane Concentration, rank 5
+                    AddPrecastSpell(12536);
+            }
+            break;
+        }
         case SPELLFAMILY_ROGUE:
         {
             // exit stealth on sap when improved sap is not skilled
             if (m_spellInfo->SpellFamilyFlags & uint64(0x00000080) && m_caster->GetTypeId() == TYPEID_PLAYER && (!m_caster->GetAura(14076, SpellEffectIndex(0)) && !m_caster->GetAura(14094, SpellEffectIndex(0)) && !m_caster->GetAura(14095, SpellEffectIndex(0))))
                 m_caster->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+            break;
         }
         case SPELLFAMILY_WARRIOR:
             break;
