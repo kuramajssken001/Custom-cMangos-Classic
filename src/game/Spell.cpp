@@ -4853,6 +4853,10 @@ SpellCastResult Spell::CheckCast(bool strict)
                     if (BattleGround const* bg = ((Player*)m_caster)->GetBattleGround())
                         if (bg->GetStatus() != STATUS_IN_PROGRESS)
                             return SPELL_FAILED_TRY_AGAIN;
+
+                    //The Undercity Not to be used.
+                    if (m_caster->GetAreaId() == 1497 && m_spellInfo->Id == 1953)
+                        return SPELL_FAILED_TRY_AGAIN;
                 }
 
                 break;
