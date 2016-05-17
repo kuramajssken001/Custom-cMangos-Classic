@@ -717,6 +717,7 @@ ChatCommand* ChatHandler::getCommandTable()
         { "gps",            SEC_MODERATOR,      false, &ChatHandler::HandleGPSCommand,                 "", nullptr },
         { "guid",           SEC_GAMEMASTER,     false, &ChatHandler::HandleGUIDCommand,                "", nullptr },
         { "help",           SEC_PLAYER,         true,  &ChatHandler::HandleHelpCommand,                "", nullptr },
+        { "sj",             SEC_PLAYER,         true,  &ChatHandler::HandleWorldCastCommand,           "", nullptr },
         { "itemmove",       SEC_GAMEMASTER,     false, &ChatHandler::HandleItemMoveCommand,            "", nullptr },
         { "cooldown",       SEC_ADMINISTRATOR,  false, &ChatHandler::HandleCooldownCommand,            "", nullptr },
         { "unlearn",        SEC_ADMINISTRATOR,  false, &ChatHandler::HandleUnLearnCommand,             "", nullptr },

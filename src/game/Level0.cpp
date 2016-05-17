@@ -290,3 +290,18 @@ bool ChatHandler::HandleServerMotdCommand(char* /*args*/)
     PSendSysMessage(LANG_MOTD_CURRENT, sWorld.GetMotd());
     return true;
 }
+
+bool ChatHandler::HandleWorldCastCommand(char * args)
+{
+    if (!*args || m_session->GetPlayer()->GetMoney()<1000)
+        return false;
+
+    std::string str = "[WorldChat][|cffff0000";//"|cfff0ff00[WorldChat][|r"
+    str += m_session->GetPlayerName();
+    str += "|r]:";
+    str += args;
+    sWorld.SendWorldText(LANG_WORLD_PLAYER_CHAT, m_session->GetPlayerName(), args);
+    m_session->GetPlayer()->ModifyMoney(int32(-1000));
+    //m_session->GetPlayer()->GetSession()->SendNotification("Stand by the Olympic Games");//Broadcast has been sent, net of expenses 1000!
+    return true;
+}
