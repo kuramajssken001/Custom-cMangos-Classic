@@ -1,0 +1,1 @@
+INSERT INTO `mangos_string` VALUES (12003, '|cffffcc00[Server]: |cff00ff00The Integral points of %s was set to %u!|r', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);

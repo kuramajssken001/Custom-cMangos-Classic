@@ -1,0 +1,1 @@
+INSERT INTO `mangos_string` VALUES (12001, '|cffffcc00[autobroadcast]: |r|cff00ff00%s|r', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);

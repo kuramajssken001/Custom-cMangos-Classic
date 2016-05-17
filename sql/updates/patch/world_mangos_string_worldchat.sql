@@ -1,0 +1,1 @@
+INSERT INTO `mangos_string` VALUES (12002, '|[WorldChat][|cffff0000%s|r]:%s', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);

@@ -1,0 +1,1 @@
+INSERT INTO `command` VALUES ('modify jf', 3, 'Syntax: .modify jf $amount');

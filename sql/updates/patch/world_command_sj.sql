@@ -1,0 +1,1 @@
+INSERT INTO `command` VALUES ('sj', 0, 'Syntax: .sj');
