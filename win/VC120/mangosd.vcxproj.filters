@@ -30,6 +30,7 @@
     <None Include="..\..\WARNING">
       <Filter>doc</Filter>
     </None>
+    <None Include="..\..\src\mangosd\mangosd.conf.dist.in" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\mangosd\CliRunnable.cpp" />

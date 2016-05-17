@@ -63,6 +63,7 @@
 #include "CharacterDatabaseCleaner.h"
 #include "CreatureLinkingMgr.h"
 #include "Weather.h"
+#include "Language.h"
 
 #include <algorithm>
 #include <mutex>
@@ -838,6 +839,9 @@ void World::SetInitialWorldSettings()
     uint32 realm_zone = getConfig(CONFIG_UINT32_REALM_ZONE);
     LoginDatabase.PExecute("UPDATE realmlist SET icon = %u, timezone = %u WHERE id = '%u'", server_type, realm_zone, realmID);
 
+    static uint32 abtimer = 0;
+    abtimer = sConfig.GetIntDefault("AutoBroadcast.Timer", 60000);
+
     ///- Remove the bones (they should not exist in DB though) and old corpses after a restart
     CharacterDatabase.PExecute("DELETE FROM corpse WHERE corpse_type = '0' OR time < (UNIX_TIMESTAMP()-'%u')", 3 * DAY);
 
@@ -1203,6 +1207,7 @@ void World::SetInitialWorldSettings()
     // Update "uptime" table based on configuration entry in minutes.
     m_timers[WUPDATE_CORPSES].SetInterval(20 * MINUTE * IN_MILLISECONDS);
     m_timers[WUPDATE_DELETECHARS].SetInterval(DAY * IN_MILLISECONDS); // check for chars to delete every day
+    m_timers[WUPDATE_AUTOBROADCAST].SetInterval(abtimer);
 
     // for AhBot
     m_timers[WUPDATE_AHBOT].SetInterval(20 * IN_MILLISECONDS); // every 20 sec
@@ -1406,6 +1411,17 @@ void World::Update(uint32 diff)
         m_timers[WUPDATE_EVENTS].Reset();
     }
 
+    static uint32 autobroadcaston = 0;
+    autobroadcaston = sConfig.GetIntDefault("AutoBroadcast.On", 0);
+    if (autobroadcaston == 1)
+    {
+        if (m_timers[WUPDATE_AUTOBROADCAST].Passed())
+        {
+            m_timers[WUPDATE_AUTOBROADCAST].Reset();
+            SendBroadcast();
+        }
+    }
+
     /// </ul>
     ///- Move all creatures with "delayed move" and remove and delete all objects with "delayed remove"
     sMapMgr.RemoveAllObjectsInRemoveList();
@@ -1496,6 +1512,56 @@ void World::SendWorldText(int32 string_id, ...)
     }
 
     va_end(ap);
+}
+
+void World::SendBroadcast()
+{
+    std::string msg;
+    static int nextid;
+
+    QueryResult *result;
+    if (nextid != 0)
+    {
+        result = WorldDatabase.PQuery("SELECT `text`, `next` FROM `autobroadcast` WHERE `id` = %u", nextid);
+    }
+    else
+    {
+        result = WorldDatabase.PQuery("SELECT `text`, `next` FROM `autobroadcast` ORDER BY RAND() LIMIT 1");
+    }
+
+    if (!result)
+        return;
+
+    nextid = result->Fetch()[1].GetUInt8();
+    msg = result->Fetch()[0].GetString();
+    delete result;
+
+    static uint32 abcenter = 0;
+    abcenter = sConfig.GetIntDefault("AutoBroadcast.Center", 0);
+    if (abcenter == 0)
+    {
+        sWorld.SendWorldText(LANG_AUTO_BROADCAST, msg.c_str());
+
+        //sLog.outString("AutoBroadcast: '%s'", msg.c_str());
+    }
+    if (abcenter == 1)
+    {
+        WorldPacket data(SMSG_NOTIFICATION, (msg.size() + 1));
+        data << msg;
+        sWorld.SendGlobalMessage(&data);
+
+        //sLog.outString("AutoBroadcast: '%s'", msg.c_str());
+    }
+    if (abcenter == 2)
+    {
+        sWorld.SendWorldText(LANG_AUTO_BROADCAST, msg.c_str());
+
+        WorldPacket data(SMSG_NOTIFICATION, (msg.size() + 1));
+        data << msg;
+        sWorld.SendGlobalMessage(&data);
+
+        //sLog.outString("AutoBroadcast: '%s'", msg.c_str());
+    }
 }
 
 /// Sends a packet to all players with optional team and instance restrictions
