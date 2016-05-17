@@ -18709,3 +18709,27 @@ float Player::ComputeRest(time_t timePassed, bool offline /*= false*/, bool inRe
     }
     return bonus;
 }
+
+uint32 Player::Getjifen() const  //只做读取积分数量的处理,不能更改
+{
+    QueryResult *result;
+    result = LoginDatabase.PQuery("SELECT `jf` FROM `account` WHERE `id` = '%u'", GetSession()->GetAccountId());
+    if (result)
+    {
+        uint32 a = result->Fetch()[0].GetUInt32();;
+        delete result;
+        return a;
+    }
+    delete result;
+    return 0;
+}
+
+void Player::Modifyjifen(int32 d)  //积分处理增加或者减少处理.
+{
+    int32 jfuser = Getjifen();
+    int32 Newjifen = jfuser + d;
+    if (Newjifen < 0)
+        LoginDatabase.PExecute("UPDATE `account` SET `jf` = '0' WHERE `id` = '%u'", GetSession()->GetAccountId());
+    else
+        LoginDatabase.PExecute("UPDATE `account` SET `jf` = '%u' WHERE `id` = '%u'", Newjifen, GetSession()->GetAccountId());
+}

@@ -6598,3 +6598,36 @@ bool ChatHandler::HandleServerResetAllRaidCommand(char* args)
     return true;
 }
 
+//积分功能GM命令开始
+bool ChatHandler::HandleModifyJfCommand(char * args)
+{
+    if (!*args)
+        return false;
+    Player *target = getSelectedPlayer();
+    if (!target)
+    {
+        SendSysMessage(LANG_PLAYER_NOT_FOUND);
+        return true;
+    }
+
+    uint32 guid = 0;  //定义设置的用户ID
+    if (target)
+    {
+        guid = target->GetSession()->GetAccountId();  //获得该玩家的注册ID号
+    }
+
+    uint32 amount = (uint32)atoi(args);   //从游戏里面获得输入的积分点数值
+    if (amount < 0 || amount > 999999)
+    {
+        SendSysMessage(LANG_BAD_VALUE);
+        return true;
+    }
+
+    LoginDatabase.PExecute("UPDATE `account` SET `jf` = '%u' WHERE `id` = '%u'", amount, guid);
+    LoginDatabase.CommitTransaction();
+
+    PSendSysMessage(LANG_COMMAND_MODIFY_JF, target->GetName(), amount);
+
+    return true;
+
+}//设置积分系统GM命令结束
