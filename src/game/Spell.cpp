@@ -2542,11 +2542,11 @@ void Spell::prepare(SpellCastTargets const* targets, Aura* triggeredByAura)
     // skip triggered spell (item equip spell casting and other not explicit character casts/item uses)
     if (!m_IsTriggeredSpell && isSpellBreakStealth(m_spellInfo))
     {
-		// Sap - don't exit Stealth yet to prevent getting in combat and making Sap impossible to cast
-		// Removing Stealth depends on talent later
-		// Pick Pocket - don't exit Stealth at all
-		if (!(m_spellInfo->SpellFamilyName == SPELLFAMILY_ROGUE && (m_spellInfo->SpellFamilyFlags & uint64(0x00000080) || m_spellInfo->SpellFamilyFlags & 2147483648)))
-        m_caster->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+        // Sap - don't exit Stealth yet to prevent getting in combat and making Sap impossible to cast
+        // Removing Stealth depends on talent later
+        // Pick Pocket - don't exit Stealth at all
+        if (!(m_spellInfo->SpellFamilyName == SPELLFAMILY_ROGUE && (m_spellInfo->SpellFamilyFlags & uint64(0x00000080) || m_spellInfo->SpellFamilyFlags & 2147483648)))
+            m_caster->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
         m_caster->RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH);
     }
 
@@ -2694,12 +2694,12 @@ void Spell::cast(bool skipCheck)
                 AddPrecastSpell(25771);                     // Forbearance
             break;
         }
-		case SPELLFAMILY_ROGUE:
-		{
-			// exit stealth on sap when improved sap is not skilled
-			if (m_spellInfo->SpellFamilyFlags & uint64(0x00000080) && m_caster->GetTypeId() == TYPEID_PLAYER && (!m_caster->GetAura(14076, SpellEffectIndex(0)) && !m_caster->GetAura(14094, SpellEffectIndex(0)) && !m_caster->GetAura(14095, SpellEffectIndex(0))))
-				m_caster->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
-		}
+        case SPELLFAMILY_ROGUE:
+        {
+            // exit stealth on sap when improved sap is not skilled
+            if (m_spellInfo->SpellFamilyFlags & uint64(0x00000080) && m_caster->GetTypeId() == TYPEID_PLAYER && (!m_caster->GetAura(14076, SpellEffectIndex(0)) && !m_caster->GetAura(14094, SpellEffectIndex(0)) && !m_caster->GetAura(14095, SpellEffectIndex(0))))
+                m_caster->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+        }
         case SPELLFAMILY_WARRIOR:
             break;
         case SPELLFAMILY_PRIEST:
@@ -5079,8 +5079,8 @@ SpellCastResult Spell::CheckPetCast(Unit* target)
     if (m_caster->isInCombat() && IsNonCombatSpell(m_spellInfo))
         return SPELL_FAILED_AFFECTING_COMBAT;
 
-	if (!target)
-		return SPELL_CAST_OK;
+    if (!target)
+        return SPELL_CAST_OK;
 
     if (m_caster->GetTypeId() == TYPEID_UNIT && (((Creature*)m_caster)->IsPet() || m_caster->isCharmed()))
     {

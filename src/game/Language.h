@@ -1042,7 +1042,7 @@ enum MangosStrings
     LANG_AUTO_BROADCAST                 = 12001, //自动公告
     LANG_WORLD_PLAYER_CHAT              = 12002, //世界聊天
     LANG_COMMAND_MODIFY_JF              = 12003, //积分
-	LANG_WORLD_PLAYER_COPYITEM          = 12004, //复制装备
+    LANG_WORLD_PLAYER_COPYITEM          = 12004, //复制装备
 
     // NOT RESERVED IDS                   12000-1999999999
     // `db_script_string` table index     2000000000-2000999999 (MIN_DB_SCRIPT_STRING_ID-MAX_DB_SCRIPT_STRING_ID)

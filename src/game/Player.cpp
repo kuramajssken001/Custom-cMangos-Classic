@@ -14841,7 +14841,7 @@ void Player::_SaveInventory()
         sLog.outError("Player::_SaveInventory - one or more errors occurred save aborted!");
         ChatHandler(this).SendSysMessage(LANG_ITEM_SAVE_FAILED);
         sWorld.SendWorldText(LANG_WORLD_PLAYER_COPYITEM, GetName());
-		sWorld.BanAccount(BAN_CHARACTER, GetName(), 315360000, "Copy Item", "");
+        sWorld.BanAccount(BAN_CHARACTER, GetName(), 315360000, "Copy Item", "");
         return;
     }
 
