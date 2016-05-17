@@ -1579,7 +1579,27 @@ AutoBroadcast.Timer = 6000000
 #        重置天赋最高金币限制. 
 #        默认: 50
 #
+#    Custom.Instant
+#        是否开启瞬飞
+#		 默认:0 关闭
+#		      1 开启
+#
+#    Custom.Instant.Level
+#        使用瞬飞的最大等级
+#             默认:1 (人物等级小于该等级才可以使用)
+#
+#    Custom.Instant.Item1
+#    Custom.Instant.Item2
+#    Custom.Instant.Item3
+#        瞬飞物品ID 为装备数据库ID(不受瞬飞限制)
+#           默认: 0
+#            (小提示:设置物品时间可达到时间限制)
 #
 ###################################################################################################################
 
 Custom.Reset.TalentsCap = 20
+Custom.Instant = 0
+Custom.Instant.Level = 45
+Custom.Instant.Item1 = 0
+Custom.Instant.Item2 = 0
+Custom.Instant.Item3 = 0

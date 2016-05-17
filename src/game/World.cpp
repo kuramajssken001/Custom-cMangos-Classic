@@ -533,6 +533,11 @@ void World::LoadConfigSettings(bool reload)
     setConfigMinMax(CONFIG_UINT32_MAINTENANCE_DAY, "MaintenanceDay", 4, 0, 6);
 
     setConfig(CONFIG_BOOL_ALL_TAXI_PATHS, "AllFlightPaths", false);
+    setConfig(CONFIG_BOOL_INSTANT_TAXI, "Custom.Instant", false);
+    setConfig(CONFIG_UINT32_INSTANT_TAXI_LEVEL, "Custom.Instant.Level", 1);
+    setConfig(CONFIG_UINT32_INSTANT_TAXI_ITEM1, "Custom.Instant.Item1", 0);
+    setConfig(CONFIG_UINT32_INSTANT_TAXI_ITEM2, "Custom.Instant.Item2", 0);
+    setConfig(CONFIG_UINT32_INSTANT_TAXI_ITEM3, "Custom.Instant.Item3", 0);
 
     setConfig(CONFIG_BOOL_INSTANCE_IGNORE_LEVEL, "Instance.IgnoreLevel", false);
     setConfig(CONFIG_BOOL_INSTANCE_IGNORE_RAID,  "Instance.IgnoreRaid", false);

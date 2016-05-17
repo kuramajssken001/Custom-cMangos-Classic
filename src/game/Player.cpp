@@ -7572,6 +7572,21 @@ uint32 Player::GetItemCount(uint32 item, bool inBankAlso, Item* skipItem) const
     return count;
 }
 
+Item* Player::GetItemByEntry(uint32 item) const
+{
+    for (int i = EQUIPMENT_SLOT_START; i < INVENTORY_SLOT_ITEM_END; ++i)
+        if (Item* pItem = GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+            if (pItem->GetEntry() == item)
+                return pItem;
+
+    for (int i = INVENTORY_SLOT_BAG_START; i < INVENTORY_SLOT_BAG_END; ++i)
+        if (Bag* pBag = (Bag*)GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+            if (Item* itemPtr = pBag->GetItemByEntry(item))
+                return itemPtr;
+
+    return nullptr;
+}
+
 Item* Player::GetItemByGuid(ObjectGuid guid) const
 {
     for (int i = EQUIPMENT_SLOT_START; i < INVENTORY_SLOT_ITEM_END; ++i)
@@ -16034,9 +16049,23 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
 
     // prevent stealth flight
     RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+    uint32 Instant_item1 = sWorld.getConfig(CONFIG_UINT32_INSTANT_TAXI_ITEM1);
+    uint32 Instant_item2 = sWorld.getConfig(CONFIG_UINT32_INSTANT_TAXI_ITEM2);
+    uint32 Instant_item3 = sWorld.getConfig(CONFIG_UINT32_INSTANT_TAXI_ITEM3);
 
-    GetSession()->SendActivateTaxiReply(ERR_TAXIOK);
-    GetSession()->SendDoFlight(mount_display_id, sourcepath);
+    if ((sWorld.getConfig(CONFIG_BOOL_INSTANT_TAXI) && getLevel() <= sWorld.getConfig(CONFIG_UINT32_INSTANT_TAXI_LEVEL))
+        || GetItemByEntry(Instant_item1) || GetItemByEntry(Instant_item2) || GetItemByEntry(Instant_item3))
+    {
+        TaxiNodesEntry const* lastnode = sTaxiNodesStore.LookupEntry(nodes[nodes.size() - 1]);
+        m_taxi.ClearTaxiDestinations();
+        TeleportTo(lastnode->map_id, lastnode->x, lastnode->y, lastnode->z, GetOrientation());
+        return false;
+    }
+    else
+    {
+        GetSession()->SendActivateTaxiReply(ERR_TAXIOK);
+        GetSession()->SendDoFlight(mount_display_id, sourcepath);
+    }
 
     return true;
 }
