@@ -1039,6 +1039,7 @@ enum MangosStrings
 
     // Use for custom patches             11000-11999
 
+    LANG_ANNOUNCE_CHEAT                 = 12000, //反外挂
     LANG_AUTO_BROADCAST                 = 12001, //自动公告
     LANG_WORLD_PLAYER_CHAT              = 12002, //世界聊天
     LANG_COMMAND_MODIFY_JF              = 12003, //积分
