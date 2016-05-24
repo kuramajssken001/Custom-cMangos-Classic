@@ -40,6 +40,7 @@
 #include "OutdoorPvP/OutdoorPvP.h"
 #include "Pet.h"
 #include "SocialMgr.h"
+#include "Config/Config.h"
 
 void WorldSession::HandleRepopRequestOpcode(WorldPacket& recv_data)
 {
@@ -253,8 +254,18 @@ void WorldSession::HandleWhoOpcode(WorldPacket& recv_data)
         data << uint32(pzoneid);                            // player zone id
     }
 
-    data.put(0, displaycount);                              // insert right count, count displayed
-    data.put(4, matchcount);                                // insert right count, count of matches
+    //data.put(0, displaycount);                              // insert right count, count displayed
+    //data.put(4, matchcount);                                // insert right count, count of matches
+
+    data.put(0, displaycount);
+    if (displaycount >= sConfig.GetIntDefault("MaxDummy", 30) && (sConfig.GetIntDefault("Dummy.On.Off", 1) == 1))
+    {
+        data.put(4, matchcount * sConfig.GetIntDefault("AddNumberDummy", 2));        
+    }
+    else
+    {
+        data.put(4, matchcount);
+    }
 
     SendPacket(&data);
     DEBUG_LOG("WORLD: Send SMSG_WHO Message");
