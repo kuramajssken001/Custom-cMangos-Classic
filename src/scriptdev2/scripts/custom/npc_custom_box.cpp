@@ -99,10 +99,10 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			//////////////////////////////////////////////////上古铸币兑换开始///////////////////////////////////////////////////////////////
 		case GOSSIP_ACTION_INFO_DEF + 100:
 		{
-			if (pPlayer->Getjifen() >= 500)
+			if (pPlayer->Getjifen() >= 100)
 			{
 				pPlayer->AddItem(32000, 1);
-				pPlayer->Modifyjifen(-(int32)500);
+				pPlayer->Modifyjifen(-(int32)100);
 				pPlayer->PlayerTalkClass->CloseGossip();
 				pPlayer->GetSession()->SendNotification("|cFFFFFF33你当前帐户积分：|r|cFF33FF00%d|r ", pPlayer->Getjifen());
 			}
@@ -116,10 +116,10 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 
 		case GOSSIP_ACTION_INFO_DEF + 101:
 		{
-			if (pPlayer->Getjifen() >= 5000)
+			if (pPlayer->Getjifen() >= 1000)
 			{
 				pPlayer->AddItem(32000, 10);
-				pPlayer->Modifyjifen(-(int32)5000);
+				pPlayer->Modifyjifen(-(int32)1000);
 				pPlayer->PlayerTalkClass->CloseGossip();
 				pPlayer->GetSession()->SendNotification("|cFFFFFF33你当前帐户积分：|r|cFF33FF00%d|r ", pPlayer->Getjifen());
 			}
@@ -133,10 +133,10 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 
 		case GOSSIP_ACTION_INFO_DEF + 102:
 		{
-			if (pPlayer->Getjifen() >= 50000)
+			if (pPlayer->Getjifen() >= 10000)
 			{
 				pPlayer->AddItem(32000, 100);
-				pPlayer->Modifyjifen(-(int32)50000);
+				pPlayer->Modifyjifen(-(int32)10000);
 				pPlayer->PlayerTalkClass->CloseGossip();
 				pPlayer->GetSession()->SendNotification("|cFFFFFF33你当前帐户积分：|r|cFF33FF00%d|r ", pPlayer->Getjifen());
 			}
