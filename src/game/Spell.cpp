@@ -5294,8 +5294,8 @@ SpellCastResult Spell::CheckCasterAuras() const
 
 bool Spell::CanAutoCast(Unit* target)
 {
-    if (!target)
-        return false;
+    //if (!target)
+    //    return false;
 
     ObjectGuid targetguid = target->GetObjectGuid();
 
